@@ -24,8 +24,9 @@ class MoviesListMainWidget extends StatelessWidget {
 class MoviesListMainView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<MoviesBloc.MoviesCubit, MoviesBloc.Result>(
-        builder: (context, MoviesBloc.Result state) {
+    return SafeArea(child:
+        BlocBuilder<MoviesBloc.MoviesCubit, MoviesBloc.Result>(
+            builder: (context, MoviesBloc.Result state) {
       switch (state.runtimeType) {
         case MoviesBloc.Loading:
         case MoviesBloc.Idle:
@@ -44,6 +45,6 @@ class MoviesListMainView extends StatelessWidget {
               });
       }
       return Container(color: Colors.white);
-    });
+    }));
   }
 }
