@@ -13,27 +13,45 @@ class MoviesListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder(
-        bloc: _bloc,
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).primaryColor,
+        title: Text(
+          "Movies List",
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+      ),
+      body: BlocProvider(
+        create: (context) => _bloc,
+        child: MoviesListMainView(),
+      ),
+    );
+  }
+}
+
+class MoviesListMainView extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<MoviesBloc.MoviesCubit, MoviesBloc.Result>(
         builder: (context, MoviesBloc.Result state) {
-          switch (state.runtimeType) {
-            case MoviesBloc.Loading:
-            case MoviesBloc.Idle:
-              return Center(child: Text("Loading..."));
-            case MoviesBloc.Failure:
-              return Center(child: Text("Failed!"));
-            case MoviesBloc.Success:
-              var successResult = state as MoviesBloc.Success;
-              return MoviesList(
-                  movies: successResult.movies,
-                  onSelectMovie: (movie) {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => MovieDetailScreen()));
-                  });
-          }
-          return Container(color: Colors.white);
-        });
+      switch (state.runtimeType) {
+        case MoviesBloc.Loading:
+        case MoviesBloc.Idle:
+          return Center(child: Text("Loading..."));
+        case MoviesBloc.Failure:
+          return Center(child: Text("Failed!"));
+        case MoviesBloc.Success:
+          var successResult = state as MoviesBloc.Success;
+          return MoviesList(
+              movies: successResult.movies,
+              onSelectMovie: (movie) {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => MovieDetailScreen(movie)));
+              });
+      }
+      return Container(color: Colors.white);
+    });
   }
 }
