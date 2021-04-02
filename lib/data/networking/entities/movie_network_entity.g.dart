@@ -8,7 +8,7 @@ part of 'movie_network_entity.dart';
 
 MovieNetworkEntity _$MovieNetworkEntityFromJson(Map<String, dynamic> json) {
   return MovieNetworkEntity(
-    json['backdrop_path'] as String,
+    json['backdrop_path'] as String?,
     json['id'] as int,
     json['original_language'] as String,
     json['original_title'] as String,

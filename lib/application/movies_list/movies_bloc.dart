@@ -4,20 +4,35 @@ import 'package:fluvies/model/movie.dart';
 
 class MoviesCubit extends Cubit<Result> {
   final MoviesRepository _repository = MoviesRepository();
+  final MoviesCubitMode mode;
 
-  MoviesCubit() : super(Idle());
+  MoviesCubit({required this.mode}) : super(Idle());
 
-  loadPopularMovies() async {
+  loadMovies() async {
     emit(Loading());
 
     try {
-      var movies = await _repository.getMovies();
-      emit(Success(movies));
-    } catch (_) {
+      switch (this.mode) {
+        case MoviesCubitMode.nowPlaying:
+          final movies = await _repository.getNowPlayingMovies();
+          emit(Success(movies));
+          break;
+        case MoviesCubitMode.popular:
+          final movies = await _repository.getPopularMovies();
+          emit(Success(movies));
+          break;
+        case MoviesCubitMode.topRated:
+          final movies = await _repository.getTopRatedMovies();
+          emit(Success(movies));
+          break;
+      }
+    } catch (ex) {
       emit(Failure());
     }
   }
 }
+
+enum MoviesCubitMode { nowPlaying, popular, topRated }
 
 abstract class Result {}
 

@@ -2,8 +2,8 @@ import 'package:fluvies/data/networking/entities/movie_network_entity.dart';
 import 'package:fluvies/model/movie.dart';
 
 class MovieNetworkingMapper {
-  String _imageUrl({required String source}) {
-    return "https://image.tmdb.org/t/p/w500${source}";
+  String? _imageUrl({required String? source}) {
+    return source != null ? "https://image.tmdb.org/t/p/w500${source}" : null;
   }
 
   Movie modelFromNetworkingEntity(MovieNetworkEntity entity) {

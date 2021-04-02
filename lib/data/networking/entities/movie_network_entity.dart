@@ -5,7 +5,7 @@ part 'movie_network_entity.g.dart';
 @JsonSerializable()
 class MovieNetworkEntity {
   @JsonKey(name: "backdrop_path")
-  String backdropPath;
+  String? backdropPath;
 
   int id;
 
